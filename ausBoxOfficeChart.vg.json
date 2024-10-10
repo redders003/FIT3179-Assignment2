@@ -6,7 +6,7 @@
         "title": {"font": "sans-serif", "fontSize": 14}
     },
     "data": {
-        "url": "https://raw.githubusercontent.com/redders003/FIT3179-Week10-Homework/refs/heads/main/Data/Updated_AusBoxOffice.csv",
+        "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusBoxOffice.csv",
         "format": {
             "type": "csv"
         }
