@@ -1,5 +1,5 @@
 ﻿Funding Source,Genre,Amount
-Australian Government Sources,Action/Adventure,21.90
+Australian Government Sources,Action/Adventure,21.9
 Australian Government Sources,Comedy/Romantic Comedy,82.14
 Australian Government Sources,Crime/Mystery,27.38
 Australian Government Sources,Drama,191.66
@@ -30,7 +30,14 @@ Australian Screen Industry,Sci-fi/Western,27.98
 Foreign Investors,Action/Adventure,139.99
 Foreign Investors,Comedy/Romantic Comedy,349.97
 Foreign Investors,Crime/Mystery,93.32
-Foreign Investors,Drama,676.60
+Foreign Investors,Drama,676.6
 Foreign Investors,Family/Musical,163.32
 Foreign Investors,Horror/Thriller,536.61
 Foreign Investors,Sci-fi/Western,116.66
+Action/Adventure,Action/Adventure,0
+Comedy/Romantic Comedy,Comedy/Romantic Comedy,0
+Crime/Mystery,Crime/Mystery,0
+Drama,Drama,0
+Family/Musical,Family/Musical,0
+Horror/Thriller,Horror/Thriller,0
+Sci-fi/Western,Sci-fi/Western,0
