@@ -33,7 +33,8 @@
                             },
                             "axis": {
                                 "title": "",
-                                "tickCount": "year"
+                                "tickCount": "year",
+                                "grid": false
                             }
                         },
                         "y": {
@@ -171,7 +172,8 @@
                     "timeUnit": "year",
                     "axis": {
                         "title": "",
-                        "tickCount": "year"
+                        "tickCount": "year",
+                        "grid": false
                     }
                 },
                 "y": {

@@ -1,0 +1,244 @@
+{
+    "$schema": "https://vega.github.io/schema/vega/v5.2.json",
+    "height": 400,
+    "width": 600,
+    "data": [
+      {
+        "name": "rawData",
+        "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusFundingGenreCombined.csv",
+        "format": {"type": "csv"},
+        "transform": [
+          {"type": "formula", "expr": "datum['Funding Source']", "as": "fundingSource"},
+          {"type": "formula", "expr": "datum['Genre']", "as": "genre"},
+          {"type": "formula", "expr": "datum['Amount']", "as": "fundingAmount"}
+        ]
+      },
+      {
+        "name": "nodes",
+        "source": "rawData",
+        "transform": [
+          
+          {"type": "formula", "expr": "datum.fundingSource+datum.genre", "as": "key"},
+          {"type": "fold", "fields": ["fundingSource", "genre"], "as": ["stack", "groupID"]},
+          {
+            "type": "formula",
+            "expr": "datum.stack == 'fundingSource' ? datum.fundingSource+' '+datum.genre : datum.genre+' '+datum.fundingSource",
+            "as": "sortField"
+          },
+          {
+            "type": "stack",
+            "groupby": ["stack"],
+            "sort": {"field": "sortField", "order": "descending"},
+            "field": "fundingAmount"
+          },
+          {"type": "formula", "expr": "(datum.y0+datum.y1)/2", "as": "midHeight"}
+        ]
+      },
+      {
+        "name": "groups",
+        "source": "nodes",
+        "transform": [
+          {
+            "type": "aggregate",
+            "groupby": ["stack", "groupID"],
+            "fields": ["fundingAmount"],
+            "ops": ["sum"],
+            "as": ["totalFunding"]
+          },
+          {
+            "type": "stack",
+            "groupby": ["stack"],
+            "sort": {"field": "groupID", "order": "descending"},
+            "field": "totalFunding"
+          },
+          {"type": "formula", "expr": "scale('y', datum.y0)", "as": "scaledY0"},
+          {"type": "formula", "expr": "scale('y', datum.y1)", "as": "scaledY1"},
+          {
+            "type": "formula",
+            "expr": "datum.stack == 'fundingSource'",
+            "as": "rightLabel"
+          },
+          {
+            "type": "formula",
+            "expr": "datum.totalFunding/domain('y')[1]",
+            "as": "percentage"
+          }
+        ]
+      },
+      {
+        "name": "destinationNodes",
+        "source": "nodes",
+        "transform": [{"type": "filter", "expr": "datum.stack == 'genre'"}]
+      },
+      {
+        "name": "flows",
+        "source": "nodes",
+        "transform": [
+          {"type": "filter", "expr": "datum.stack == 'fundingSource'"},
+          {
+            "type": "lookup",
+            "from": "destinationNodes",
+            "key": "key",
+            "fields": ["key"],
+            "as": ["target"]
+          },
+          {
+            "type": "linkpath",
+            "orient": "horizontal",
+            "shape": "diagonal",
+            "sourceY": {"expr": "scale('y', datum.midHeight)"},
+            "sourceX": {"expr": "scale('x', 'fundingSource') + bandwidth('x')"},
+            "targetY": {"expr": "scale('y', datum.target.midHeight)"},
+            "targetX": {"expr": "scale('x', 'genre')"}
+          },
+          {
+            "type": "formula",
+            "expr": "range('y')[0]-scale('y', datum.fundingAmount)",
+            "as": "strokeWidth"
+          },
+          {
+            "type": "formula",
+            "expr": "datum.fundingAmount/domain('y')[1]",
+            "as": "percentage"
+          }
+        ]
+      }
+    ],
+    "scales": [
+      {
+        "name": "x",
+        "type": "band",
+        "range": "width",
+        "domain": ["fundingSource", "genre"],
+        "paddingOuter": 0,
+        "paddingInner": 0.7
+      },
+      {
+        "name": "y",
+        "type": "linear",
+        "range": "height",
+        "domain": {"data": "nodes", "field": "y1"}
+      },
+      {
+        "name": "color",
+        "type": "ordinal",
+        "range": "category",
+        "domain": {"data": "rawData", "field": "fundingSource"}
+      },
+      {
+        "name": "stackNames",
+        "type": "ordinal",
+        "range": ["Funding Source", "Genre of Film"],
+        "domain": ["fundingSource", "genre"]
+      }
+    ],
+    "axes": [
+      {
+        "orient": "bottom",
+        "scale": "x",
+        "encode": {
+          "labels": {
+            "update": {"text": {"scale": "stackNames", "field": "value"}}
+          }
+        }
+      },
+      {"orient": "left", "scale": "y", "domain": false,
+    "ticks": false,
+    "labels": false}
+    ],
+    "marks": [
+      {
+        "type": "path",
+        "name": "flowMark",
+        "from": {"data": "flows"},
+        "clip": true,
+        "encode": {
+          "update": {
+            "stroke": [
+  
+              {"scale": "color", "field": "fundingSource"}
+            ],
+            "strokeWidth": {"field": "strokeWidth"},
+            "path": {"field": "path"},
+            "strokeOpacity": {
+              "signal": "(groupHover.fundingSource == datum.fundingSource || groupHover.genre == datum.genre) ? 0.9 : 0.25"
+            },
+            "zindex": {
+              "signal": "(groupHover.fundingSource == datum.fundingSource || groupHover.genre == datum.genre) ? 1 : 0"
+            },
+            "tooltip": {
+              "signal": "'$' + format(datum.fundingAmount, ',.0f') + 'M AUD from ' + datum.fundingSource + ' to ' + datum.genre + ' Films'"
+            }
+          },
+          "hover": {"strokeOpacity": {"value": 1}}
+        }
+      },
+      {
+        "type": "rect",
+        "name": "groupMark",
+        "from": {"data": "groups"},
+        "encode": {
+          "enter": {
+            "fill": {"scale": "color", "field": "groupID"},
+            "width": {"scale": "x", "band": 1}
+          },
+          "update": {
+            "x": {"scale": "x", "field": "stack"},
+            "y": {"field": "scaledY0"},
+            "y2": {"field": "scaledY1"},
+            "fillOpacity": {"value": 0.6},
+            "tooltip": {
+              "signal": "'$' + format(datum.totalFunding, ',.0f') + 'M AUD from ' + datum.groupID + '   (' + format(datum.percentage, '.1%') + ')'"
+            }
+          },
+          "hover": {"fillOpacity": {"value": 1}}
+        }
+      },
+      {
+        "type": "text",
+        "from": {"data": "groups"},
+        "interactive": false,
+        "encode": {
+          "update": {
+            "x": {
+              "signal": "scale('x', datum.stack) + (datum.rightLabel ? bandwidth('x')/2 : bandwidth('x')/2)"
+            },
+            "yc": {"signal": "(datum.scaledY0 + datum.scaledY1)/2"},
+            "align": {"signal": "'center'"},
+            "baseline": {"value": "middle"},
+            "fontWeight": {"value": "bold"},
+            "text": {
+              "signal": "datum.groupID"
+            }
+          }
+        }
+      },
+      {
+        "type": "rect",
+        "from": {"data": "groups"},
+        "encode": {
+          "enter": {
+            "stroke": {"value": "#000"},
+            "strokeWidth": {"value": 2},
+            "width": {"scale": "x", "band": 1},
+            "x": {"scale": "x", "field": "stack"},
+            "y": {"field": "y0", "scale": "y"},
+            "y2": {"field": "y1", "scale": "y"}
+          }
+        }
+      }
+    ],
+    "signals": [
+      {
+        "name": "groupHover",
+        "value": {},
+        "on": [
+          {
+            "events": "@groupMark:mouseover",
+            "update": "{fundingSource:datum.stack=='fundingSource' && datum.groupID, genre:datum.stack=='genre' && datum.groupID}"
+          },
+          {"events": "mouseout", "update": "{}"}
+        ]
+      }
+    ]
+  }
