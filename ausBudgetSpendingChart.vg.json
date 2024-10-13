@@ -1,68 +1,265 @@
 {
-    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 300,
-    "height": 250,
-    "title": {
-        "text": "Spending Location of Australian Film Budgets from 1996 - 2023"
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": "container",
+  "height": 250,
+  "title": {
+    "text": "Spending Location of Australian Film Budgets from 1996 - 2023"
+  },
+  "config": {
+    "background": "#f5f5f5",
+    "title": {"font": "sans-serif", "fontSize": 14}
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusBudgetSpending.csv"
+  },
+  "transform": [
+    {
+      "fold": ["spendInAus", "spendOutAus"],
+      "as": ["spendLocation", "amount"]
     },
-    "config": {
-        "background": "#f5f5f5",
-        "title": {"font": "sans-serif", "fontSize": 14}
+    {
+      "calculate": "toNumber(datum.spendInAus) + toNumber(datum.spendOutAus)",
+      "as": "totalSpent"
     },
-    "data": {
-      "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusBudgetSpending.csv"
-    },
-    "transform": [
-      {
-        "fold": ["spendInAus", "spendOutAus"],
-        "as": ["spendLocation", "amount"]
-      }
-    ],
-    "mark": "area",
-    "encoding": {
-      "x": {
-        "field": "year",
-        "type": "temporal",
-        "timeUnit": "year",
-        "axis": {
-            "title": "",
-            "tickCount": "year"
-        }
-      },
-      "y": {
-        "aggregate": "sum",
-        "field": "amount",
-        "type": "quantitative",
-        "axis": {
-          "title": "Spending (AUD)"
-        }
-      },
-      "color": {
-        "field": "spendLocation",
-        "type": "nominal",
-        "legend": {
-          "title": "Spending Location",
-          "labelExpr": "datum.label === 'spendInAus' ? 'Spent In Australia' : 'Spent Outside Australia'"
-        },
-        "scale": {
-        "domain": ["spendInAus", "spendOutAus"],
-        "range": ["#49967E", "#964961"]
-        }
-      },
-      "tooltip": [
-        {
-          "field": "amount",
-          "type": "quantitative",
-          "title": "Spending",
-          "format": ".2s"
-        },
-        {
+    {
+      "calculate": "toNumber(datum.spendOutAus) / datum.totalSpent",
+      "as": "proportionOutAus"
+    }
+  ],
+  "layer": [
+    {
+      "mark": "area",
+      "encoding": {
+        "x": {
           "field": "year",
           "type": "temporal",
-          "title": "Year",
+          "timeUnit": "year",
+          "axis": {
+            "title": "",
+            "tickCount": "year",
+            "grid": false
+          }
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "amount",
+          "type": "quantitative",
+          "axis": {
+            "title": "Spending (AUD)",
+            "format": ".2s"
+          }
+        },
+        "color": {
+          "field": "spendLocation",
+          "type": "nominal",
+          "legend": {
+            "title": "Spending Location",
+            "labelExpr": "datum.label === 'spendInAus' ? 'Spent In Australia' : 'Spent Outside Australia'"
+          },
+          "scale": {
+            "domain": ["spendInAus", "spendOutAus"],
+            "range": ["#49967E", "#964961"]
+          }
+        },
+        "tooltip": [
+          {
+            "field": "spendInAus",
+            "type": "quantitative",
+            "title": "Spent in Australia",
+            "format": "~s"
+          },
+          {
+            "field": "spendOutAus",
+            "type": "quantitative",
+            "title": "Spent outside Australia",
+            "format": "~s"
+          },
+          {
+            "field": "year",
+            "type": "temporal",
+            "title": "Year",
+            "timeUnit": "year"
+          }
+        ]
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "right",
+        "dx": -10,
+        "dy": 10,
+        "fontSize": 9,
+        "fontStyle": "italic"
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "maxRanking"
+            }
+          ],
+          "sort": [
+            {
+              "field": "totalSpent",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.maxRanking == 1"
+        },
+        {
+          "calculate": "'Highest Total Australian Film ;Budget was $' + datum['totalSpent']/1000000 + 'M AUD in ' + year(datetime(datum['year']))",
+          "as": "maxTextAnnotationRaw"
+        },
+        {
+          "calculate": "split(datum.maxTextAnnotationRaw, ';')",
+          "as": "maxTextAnnotation"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "temporal",
+          "timeUnit": "year"
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "amount",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "maxTextAnnotation"
+        },
+        "color": {
+          "value": "gray"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "dx": 5,
+        "dy": -100,
+        "fontSize": 9,
+        "fontStyle": "italic"
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "outAusRanking"
+            }
+          ],
+          "sort": [
+            {
+              "field": "proportionOutAus",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.outAusRanking == 1"
+        },
+        {
+          "calculate": "'Highest percentage of Australian; Film Budget spent outside of ;Australia was ' + round(100 * datum['proportionOutAus']) + '% in ' + year(datetime(datum['year']))",
+          "as": "proportionTextAnnotationRaw"
+        },
+        {
+          "calculate": "split(datum.proportionTextAnnotationRaw, ';')",
+          "as": "proportionTextAnnotation"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "temporal",
+          "timeUnit": "year"
+        },
+        "y": {
+          "aggregate": "sum",
+          "field": "amount",
+          "type": "quantitative"
+        },
+        "text": {
+          "field": "proportionTextAnnotation"
+        },
+        "color": {
+          "value": "gray"
+        }
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "lightgrey",
+        "strokeDash": [4, 4],
+        "strokeWidth": 1.5
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "outAusRanking"
+            }
+          ],
+          "sort": [
+            {
+              "field": "proportionOutAus",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.outAusRanking == 1"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "temporal",
           "timeUnit": "year"
         }
-      ]
+      }
+    },
+    {
+      "mark": {
+        "type": "rule",
+        "color": "lightgrey",
+        "strokeDash": [4, 4],
+        "strokeWidth": 1.5
+      },
+      "transform": [
+        {
+          "window": [
+            {
+              "op": "rank",
+              "as": "maxRanking"
+            }
+          ],
+          "sort": [
+            {
+              "field": "totalSpent",
+              "order": "descending"
+            }
+          ]
+        },
+        {
+          "filter": "datum.maxRanking == 1"
+        }
+      ],
+      "encoding": {
+        "x": {
+          "field": "year",
+          "type": "temporal",
+          "timeUnit": "year"
+        }
+      }
     }
-  }
-  
+  ]
+}
