@@ -1,21 +1,42 @@
 {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-    "width": 300, "height": 200,
-    "data": {"url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusBudgetSpending.csv"},
+    "width": 300,
+    "height": 200,
+    "data": {
+      "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusBudgetSpending.csv"
+    },
+    "transform": [
+      {
+        "fold": ["spendInAus", "spendOutAus"],
+        "as": ["series", "count"]
+      }
+    ],
     "mark": "area",
     "encoding": {
       "x": {
-        "timeUnit": "year", "field": "year",
-        "axis": {"format": "%Y"}
+        "field": "year",
+        "type": "temporal",
+        "timeUnit": "year",
+        "axis": {
+            "title": "",
+            "tickCount": "year"
+        }
       },
       "y": {
-        "aggregate": "sum", "field": "count"
+        "aggregate": "sum",
+        "field": "count",
+        "type": "quantitative",
+        "axis": {
+          "title": "Spending"
+        }
       },
       "color": {
         "field": "series",
-        "scale": {"scheme": "category20b"}
+        "type": "nominal",
+        "legend": {
+          "title": "Spending Type"
+        }
       }
     }
   }
-  
   
