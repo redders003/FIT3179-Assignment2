@@ -7,17 +7,18 @@
         "name": "rawData",
         "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/Updated_AusFundingGenreCombined.csv",
         "format": {"type": "csv"},
-        "transform": [
-          {"type": "formula", "expr": "datum['Funding Source']", "as": "fundingSource"},
-          {"type": "formula", "expr": "datum['Genre']", "as": "genre"},
-          {"type": "formula", "expr": "datum['Amount']", "as": "fundingAmount"}
-        ]
+
+      "transform": [
+        {"type": "formula", "expr": "datum['Funding Source']", "as": "fundingSource"},
+        {"type": "formula", "expr": "datum['Genre']", "as": "genre"},
+        {"type": "formula", "expr": "datum['Amount']", "as": "fundingAmount"}
+      ]
       },
       {
         "name": "nodes",
         "source": "rawData",
         "transform": [
-          
+            {"type": "filter", "expr": "datum.fundingAmount > 0"},
           {"type": "formula", "expr": "datum.fundingSource+datum.genre", "as": "key"},
           {"type": "fold", "fields": ["fundingSource", "genre"], "as": ["stack", "groupID"]},
           {
@@ -111,7 +112,7 @@
         "range": "width",
         "domain": ["fundingSource", "genre"],
         "paddingOuter": 0,
-        "paddingInner": 0.7
+        "paddingInner": 0.6
       },
       {
         "name": "y",
@@ -120,11 +121,11 @@
         "domain": {"data": "nodes", "field": "y1"}
       },
       {
-        "name": "color",
+        "name": "colorSource",
         "type": "ordinal",
-        "range": "category",
+        "range": ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9"],
         "domain": {"data": "rawData", "field": "fundingSource"}
-      },
+        },
       {
         "name": "stackNames",
         "type": "ordinal",
@@ -155,8 +156,7 @@
         "encode": {
           "update": {
             "stroke": [
-  
-              {"scale": "color", "field": "fundingSource"}
+              {"scale": "colorSource", "field": "fundingSource"}
             ],
             "strokeWidth": {"field": "strokeWidth"},
             "path": {"field": "path"},
@@ -167,7 +167,7 @@
               "signal": "(groupHover.fundingSource == datum.fundingSource || groupHover.genre == datum.genre) ? 1 : 0"
             },
             "tooltip": {
-              "signal": "'$' + format(datum.fundingAmount, ',.0f') + 'M AUD from ' + datum.fundingSource + ' to ' + datum.genre + ' Films'"
+              "signal": "datum.fundingSource + ' to ' + datum.genre + ' Films: $' + format(datum.fundingAmount, ',.2f') + 'M AUD (' + format(datum.percentage, '.1%') + ')'"
             }
           },
           "hover": {"strokeOpacity": {"value": 1}}
@@ -179,7 +179,7 @@
         "from": {"data": "groups"},
         "encode": {
           "enter": {
-            "fill": {"scale": "color", "field": "groupID"},
+            "fill": {"scale": "colorSource", "field": "groupID"},
             "width": {"scale": "x", "band": 1}
           },
           "update": {
@@ -188,7 +188,7 @@
             "y2": {"field": "scaledY1"},
             "fillOpacity": {"value": 0.6},
             "tooltip": {
-              "signal": "'$' + format(datum.totalFunding, ',.0f') + 'M AUD from ' + datum.groupID + '   (' + format(datum.percentage, '.1%') + ')'"
+              "signal": "datum.groupID + ': $' + format(datum.totalFunding, ',.0f') + 'M AUD (' + format(datum.percentage, '.1%') + ')'"
             }
           },
           "hover": {"fillOpacity": {"value": 1}}
@@ -208,7 +208,7 @@
             "baseline": {"value": "middle"},
             "fontWeight": {"value": "bold"},
             "text": {
-              "signal": "datum.groupID"
+              "signal": "abs(datum.scaledY0-datum.scaledY1) > 1 ? datum.groupID : ''"
             }
           }
         }
@@ -219,7 +219,7 @@
         "encode": {
           "enter": {
             "stroke": {"value": "#000"},
-            "strokeWidth": {"value": 2},
+            "strokeWidth": {"value": 1.5},
             "width": {"scale": "x", "band": 1},
             "x": {"scale": "x", "field": "stack"},
             "y": {"field": "y0", "scale": "y"},
