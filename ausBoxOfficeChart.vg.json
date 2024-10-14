@@ -16,7 +16,7 @@
     "vconcat": [
         {
             "width": "container",
-            "height": 250,
+            "height": 220,
             "title": {
                 "text": "Total Worldwide Box Office of Australian Films from 1979 - 2024"
             },
@@ -173,7 +173,7 @@
                     "type": "temporal",
                     "timeUnit": "year",
                     "axis": {
-                        "title": "",
+                        "title": "Year",
                         "tickCount": "year",
                         "grid": false
                     }

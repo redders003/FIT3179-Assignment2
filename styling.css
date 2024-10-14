@@ -18,7 +18,7 @@
 
 /* Wrapper takes up 90% of the width for the entire page */
 .wrapper {
-    width: 90%;   
+    width: 90%;
     margin: 0 auto;
 }
 
@@ -36,4 +36,14 @@ h1, p, h2 {
 
 
 
+/* Style for side-by-side grid container */
+.side-by-side-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;  /* Space between the charts */
+}
 
+/* Style for individual chart subsections */
+.chart-subsection {
+    text-align: center;
+}

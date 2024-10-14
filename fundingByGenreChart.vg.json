@@ -1,7 +1,10 @@
 {
     "$schema": "https://vega.github.io/schema/vega/v5.2.json",
-    "height": 400,
-    "width": 1000,
+    "height": 500,
+    "width": 1200,
+    "title": {
+        "text": "Funding Source of Australian Films by Genre (1996 - 2023)"
+    },
     "data": [
       {
         "name": "rawData",

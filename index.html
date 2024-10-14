@@ -47,24 +47,29 @@
 
     <!-- Australian Films Section -->
     <section class="chart-section">
-        <h2>Australian Films</h2>
-        <p>This bar chart tracks the total worldwide box office earnings of Australian films from 1979 to 2024. The visualization is composed of two parts: the main bar chart (at the top) that shows the total worldwide box office of Australian films for each year, and an interactive selection bar (at the bottom) that allows users to focus on a specific time range.
+        <h2>Australian Box Office</h2>
+        <p>This bar chart tracks the total worldwide box office earnings of Australian films from 1979 to 2024. The visualization is composed of two parts: the main bar chart (at the top) that shows the total worldwide box office of Australian films for each year, and an interactive selection bar (at the bottom) that allows users to focus on a specific time range. 
+            The year with the highest box office within this range is indicated, and the highest-grossing film of that year is also annotated.
+            The bars are shaded according to the number of Australian films produced within each year, with darker shades indicating a higher number of films. 
         </p>
-        <div id="ausBoxOfficeChart" class="chart-container" style="width: 98%;"></div>
+        <div id="ausBoxOfficeChart" class="chart-container" style="width: 96%;"></div>
     </section>
 
-    <!-- Budget Spending Section -->
+    <!-- Combined Budget and Funding Section -->
     <section class="chart-section">
-        <h2>Budget Spending on Australian Films</h2>
-        <p>This chart shows the spending location of Australian film budgets from 1996 to 2023. It visualizes the proportion of film budgets spent within Australia versus outside the country.</p>
-        <div id="ausBudgetSpendingChart" class="chart-container"></div>
-    </section>
-
-    <!-- Funding by Genre Section -->
-    <section class="chart-section">
-        <h2>Funding by Genre for Australian Films</h2>
-        <p>This chart shows how different genres of Australian films have been funded over time, visualizing the flow of funds from different sources to specific genres.</p>
-        <div id="fundingByGenreChart" class="chart-container"></div>
+        <h2>Australian Film Funding</h2>
+        <div class="side-by-side-grid">
+            <div class="chart-subsection">
+                <h2>Budget Spending on Australian Films</h2>
+                <p>This chart shows the spending location of Australian film budgets from 1996 to 2023. It visualizes the proportion of film budgets spent within Australia versus outside the country.</p>
+                <div id="ausBudgetSpendingChart" class="chart-container"></div>
+            </div>
+            <div class="chart-subsection">
+                <h2>Funding by Genre for Australian Films</h2>
+                <p>This chart shows how different genres of Australian films have been funded over time, visualizing the flow of funds from different sources to specific genres.</p>
+                <div id="fundingByGenreChart" class="chart-container"></div>
+            </div>
+        </div>
     </section>
 
 </body>
