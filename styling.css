@@ -1,4 +1,4 @@
-#BoxOfficeMap, #AusBoxOfficeChart {
+#boxOfficeMap, #ausBoxOfficeChart, #ausBudgetSpendingChart, #fundingByGenreChart {
     width: 100%;
     text-align: center;
 }
