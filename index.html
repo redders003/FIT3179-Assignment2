@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
-<head>
+  <head>
     <title>Australia's Film Industry</title>
-    <link rel="stylesheet" href="styling.css">
+    <link rel="stylesheet" href="styling.css" />
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
@@ -16,62 +15,142 @@
     <script src="ausBoxOfficeChart.js"></script>
     <script src="ausBudgetSpendingChart.js"></script>
     <script src="fundingByGenreChart.js"></script>
-</head>
+  </head>
 
-<body class="wrapper">
-
+  <body class="wrapper">
     <h1>Australia's Film Industry</h1>
-    <p>Australia has long been a vibrant player in the global film industry, producing both internationally acclaimed
-        films and unique domestic works that reflect its rich cultural heritage. From early classics like <i>Crocodile
-            Dundee (1986)</i> to global blockbusters like <i>The Matrix Reloaded (2003)</i> and <i>The Lego Movie
-            (2014)</i>, Australia’s film industry has been
-        influential both in terms of storytelling and technical achievements.
-        <br><br>
-        Australia's role in the global box office has grown significantly since the late 20th century, particularly as
-        filmmakers, actors, and production teams have gained international recognition. Directors like George Miller and
-        Baz Luhrmann, as well as stars like Nicole Kidman, Hugh Jackman, and Cate Blanchett, have become household
-        names. The country has also become a major destination for international film production due to its scenic
-        locations, talented workforce, and competitive tax incentives.
+    <p>
+      Australia has long been a vibrant player in the global film industry,
+      producing both internationally acclaimed films and unique domestic works
+      that reflect its rich cultural heritage. From early classics like
+      <i>Crocodile Dundee (1986)</i> to global blockbusters like
+      <i>The Matrix Reloaded (2003)</i> and <i>The Lego Movie (2014)</i>,
+      Australia’s film industry has been influential both in terms of
+      storytelling and technical achievements. <br /><br />
+      Australia's role in the global box office has grown significantly since
+      the late 20th century, particularly as filmmakers, actors, and production
+      teams have gained international recognition. Directors like George Miller
+      and Baz Luhrmann, as well as stars like Nicole Kidman, Hugh Jackman, and
+      Cate Blanchett, have become household names. The country has also become a
+      major destination for international film production due to its scenic
+      locations, talented workforce, and competitive tax incentives.
     </p>
 
     <!-- International Box Office Section -->
     <section class="chart-section">
-        <h2>International Box Office</h2>
-        <p>The map below visualizes the sum of the worldwide box office of domestically produced films, relative to the
-            number of films produced in each country, from 1899 to 2024. The countries are shaded according to the worldwide box
-            office revenue of domestically produced films, per film produced domestically. Darker shades indicate higher box office returns, while lighter shades
-            represent lower returns.
-        </p>
-        <div id="boxOfficeWorldMap" class="chart-container"></div>
+      <h2>International Box Office</h2>
+      <p>
+        Australia does moderately well on the global scale, ranking 15th in
+        terms of box office revenue per film produced domestically. The United
+        States, unsurprisingly, comes in first, thanks to Hollywood's domination
+        of the film market. Panama interestingly comes in second, despite
+        producing only a few films, mainly due to the success of
+        <i>Superman (1978)</i>, which was a co-production between Panama,
+        Switzerland, United Kingdom, and the United States. New Zealand came in
+        third, thanks to the massive international success of
+        <i>The Lord of the Rings</i> and <i>The Hobbit</i> trilogies, all of
+        which were co-productions between New Zealand and the United States.
+        <br /><br />The map below visualizes the sum of the worldwide box office
+        of domestically produced films, relative to the number of films produced
+        in each country, from 1899 to 2024. The countries are shaded according
+        to the worldwide box office revenue of domestically produced films, per
+        film produced domestically. Darker shades indicate higher box office
+        returns, while lighter shades represent lower returns.
+      </p>
+      <div id="boxOfficeWorldMap" class="chart-container"></div>
     </section>
 
     <!-- Australian Films Section -->
     <section class="chart-section">
-        <h2>Australian Box Office</h2>
-        <p>This bar chart tracks the total worldwide box office earnings of Australian films from 1979 to 2024. The visualization is composed of two parts: the main bar chart (at the top) that shows the total worldwide box office of Australian films for each year, and an interactive selection bar (at the bottom) that allows users to focus on a specific time range. 
-            The year with the highest box office within this range is indicated, and the highest-grossing film of that year is also annotated.
-            The bars are shaded according to the number of Australian films produced within each year, with darker shades indicating a higher number of films. 
-        </p>
-        <div id="ausBoxOfficeChart" class="chart-container" style="width: 96%;"></div>
+      <h2>Australian Box Office</h2>
+      <p>
+        Australia's box office successes all come from co-productions with the
+        United States. Early examples include <i>Crocodile Dundee (1986)</i>,
+        <i>Crocodile Dundee 2 (1988)</i>, <i>Babe (1995)</i>, and
+        <i>The Matrix (1999)</i>. 2003 was the most successful year for
+        Australian films, thanks to <i>The Matrix Reloaded</i> becoming (and
+        remaining) the highest grossing Australian film of all time, grossing
+        over $738 million worldwide. 2003 also saw success with
+        <i>Mytic River</i> and <i>Peter Pan</i>, which together grossed an
+        additional $252 million worldwide. In more recent times, while there are
+        still successful Australian productions at the box office (such as
+        <i>The Lego Movie (2014)</i> and <i>Peter Rabbit (2018)</i>, which
+        grossed over $467 million and $358 million worldwide respectively), the
+        general trend is diminishing box office returns, coinciding with an
+        increase in the number of Australian films being produced. 2023 was a
+        particularly bad year, with the highest number of Australian films ever
+        created within a year (122), but only grossing a total of $28 million
+        woldwide.<br /><br />
+        This bar chart tracks the total worldwide box office earnings of
+        Australian films from 1979 to 2024. The visualization is composed of two
+        parts: the main bar chart (at the top) that shows the total worldwide
+        box office of Australian films for each year, and an interactive
+        selection bar (at the bottom) that allows users to focus on a specific
+        time range. The year with the highest box office within this range is
+        indicated, and the highest-grossing film of that year is also annotated.
+        The bars are shaded according to the number of Australian films produced
+        within each year, with darker shades indicating a higher number of
+        films.
+      </p>
+      <div
+        id="ausBoxOfficeChart"
+        class="chart-container"
+        style="width: 96%"
+      ></div>
     </section>
 
     <!-- Combined Budget and Funding Section -->
     <section class="chart-section">
-        <h2>Australian Film Funding</h2>
-        <div class="side-by-side-grid">
-            <div class="chart-subsection">
-                <h3>Budget Spending on Australian Films</h3>
-                <p>This chart shows the spending location of Australian film budgets each year, from 1996 to 2023. It visualizes the proportion of Australian film budgets spent within Australia versus outside the country.</p>
-                <div id="ausBudgetSpendingChart" class="chart-container" style="width: 100%;"></div>
-            </div>
-            <div class="chart-subsection">
-                <h3>Funding by Genre for Australian Films</h3>
-                <p>This chart shows the sum of funding amounts from different sources of finance for Australian films from 2008 to 2023, and the amount these sources gave to different film genres.</p>
-                <div id="fundingByGenreChart" class="chart-container" style="width: 100%;"></div>
-            </div>
+      <h2>Australian Film Funding</h2>
+      <p>
+        Australian film funding comes from a diverse range of sources, including
+        government agencies, private investors, and foreign backers. The
+        Australian government, through Screen Australia and state-based bodies,
+        plays a vital role in supporting films that reflect the nation’s
+        culture, however the largest contributer comes from foreign investors,
+        who contributed over $2 billion between 2008 and 2023, often backing
+        larger co-productions aimed at international markets. Incentives like
+        the Producer Offset (a tax rebate program) have further attracted
+        foreign investment, making Australia a key destination for global
+        productions. Drama is the most attractive genre for funding,
+        receiving over $1.6 billion (33%) of funding from all sources between
+        2008 and 2023. <br><br>
+        From 1996 to 2023, the majority of these budgets for
+        Australian films have historically been spent domestically, howevever
+        some years had significant spending outside of the country, such as 2003
+        with over 37% of the budget spent outside of Australia. 2022 easily had
+        the highest total budget, with over $796 million spent on Australian
+        films, and only $2 million of this spent outside Australia.
+      </p>
+      <div class="side-by-side-grid">
+        <div class="chart-subsection">
+          <h3>Budget Spending on Australian Films</h3>
+          <p>
+            This chart shows the spending location of Australian film budgets
+            each year, from 1996 to 2023. It visualizes the proportion of
+            Australian film budgets spent within Australia versus outside the
+            country.
+          </p>
+          <div
+            id="ausBudgetSpendingChart"
+            class="chart-container"
+            style="width: 100%"
+          ></div>
         </div>
+        <div class="chart-subsection">
+          <h3>Funding by Genre for Australian Films</h3>
+          <p>
+            This chart shows the sum of funding amounts from different sources
+            of finance for Australian films from 2008 to 2023, and the amount
+            these sources gave to different film genres.
+          </p>
+          <div
+            id="fundingByGenreChart"
+            class="chart-container"
+            style="width: 100%"
+          ></div>
+        </div>
+      </div>
     </section>
-
-</body>
-
+  </body>
 </html>

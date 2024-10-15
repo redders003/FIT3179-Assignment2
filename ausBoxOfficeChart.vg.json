@@ -73,6 +73,11 @@
                                 "title": "Release Year"
                             },
                             {
+                                "field": "topGrossingMovie",
+                                "type": "nominal",
+                                "title": "Highest Grossing Movie"
+                            },
+                            {
                                 "field": "numMoviesProduced",
                                 "type": "quantitative",
                                 "title": "Number of Australian Films Produced"
@@ -210,6 +215,11 @@
                         "type": "temporal",
                         "timeUnit": "year",
                         "title": "Release Year"
+                    },
+                    {
+                        "field": "topGrossingMovie",
+                        "type": "nominal",
+                        "title": "Highest Grossing Movie"
                     },
                     {
                         "field": "numMoviesProduced",
