@@ -117,6 +117,140 @@
                     {"field": "boxOfficePerMovie", "type": "quantitative", "title": "Worldwide USD per Domestically Produced Film", "format": "$,.0f"}
                 ]
             }
+        },
+        {
+            "data": {
+                    "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/main/Data/Updated_BoxOfficeByCountry.csv"
+                    },
+            "transform": [
+                {
+                    "calculate": "datum.worldwideBoxOffice/datum.numMovies",
+                    "as": "boxOfficePerMovie"
+                },
+                {
+                    "lookup": "productionCountries",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/ne_110m_border.json",
+                            "format": {
+                                "type": "topojson",
+                                "feature": "ne_110m_admin_0_countries"
+                            }
+                        },
+                        "key": "properties.NAME",
+                        "fields": ["properties"]
+                    }
+                },
+                {
+                    "window": [
+                        {
+                            "op": "rank",
+                            "as": "ranking"
+                        }
+                    ],
+                    "sort": [
+                        {
+                            "field": "boxOfficePerMovie",
+                            "order": "descending"
+                        }
+                    ]
+                },
+                {
+                    "filter": "datum.ranking == 1"
+                },
+                {
+                    "calculate": "'The highest;worldwide box office from;domestically produced films;is ' + datum['productionCountries'] + ', ;with a total of ' + format(datum['boxOfficePerMovie'], '$,.0f') + ' per;domestically produced movie.'",
+                    "as": "text_annotation_raw"
+                },
+                {
+                    "calculate": "split(datum.text_annotation_raw, ';')",
+                    "as": "text_annotation"
+                }
+
+            ],
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "dx": -110,
+                "dy": -15,
+                "fontSize": 8,
+                "fontStyle": "italic"
+            },
+            "encoding": {
+                "longitude": {"field": "properties.LABEL_X"},
+                "latitude": {"field": "properties.LABEL_Y"},
+                "color": {
+                    "value": "gray"
+                },
+                "text": {"field": "text_annotation"}
+            }
+        },
+        {
+            "data": {
+                    "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/main/Data/Updated_BoxOfficeByCountry.csv"
+                    },
+            "transform": [
+                {
+                    "calculate": "datum.worldwideBoxOffice/datum.numMovies",
+                    "as": "boxOfficePerMovie"
+                },
+                {
+                    "lookup": "productionCountries",
+                    "from": {
+                        "data": {
+                            "url": "https://raw.githubusercontent.com/redders003/FIT3179-Assignment2/refs/heads/main/Data/ne_110m_border.json",
+                            "format": {
+                                "type": "topojson",
+                                "feature": "ne_110m_admin_0_countries"
+                            }
+                        },
+                        "key": "properties.NAME",
+                        "fields": ["properties"]
+                    }
+                },
+                {
+                    "window": [
+                        {
+                            "op": "rank",
+                            "as": "ranking"
+                        }
+                    ],
+                    "sort": [
+                        {
+                            "field": "boxOfficePerMovie",
+                            "order": "descending"
+                        }
+                    ]
+                },
+                {
+                    "filter": "datum.productionCountries == 'Australia'"
+                },
+                {
+                    "calculate": "'Australia ranks ' + datum.ranking + 'th in; worldwide box office from ;domestically produced films,; with a total of ' + format(datum['boxOfficePerMovie'], '$,.0f') + ' per;domestically produced movie.'",
+                    "as": "text_annotation_raw"
+                },
+                {
+                    "calculate": "split(datum.text_annotation_raw, ';')",
+                    "as": "text_annotation"
+                }
+
+            ],
+            "mark": {
+                "type": "text",
+                "align": "center",
+                "dx": -110,
+                "dy": -10,
+                "fontSize": 8,
+                "fontStyle": "italic"
+            },
+            "encoding": {
+                "longitude": {"field": "properties.LABEL_X"},
+                "latitude": {"field": "properties.LABEL_Y"},
+                "color": {
+                    "value": "gray"
+                },
+                "text": {"field": "text_annotation"}
+            }
         }
     ]
 }

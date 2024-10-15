@@ -128,7 +128,8 @@
                         "dx": -5,
                         "dy": {"expr": "datum.dy_adjustment"},
                         "baseline": "middle",
-                        "fontStyle": "italic"
+                        "fontStyle": "italic",
+                        "fontSize": 8
                     },
                     "encoding": {
                         "x": {
@@ -147,7 +148,10 @@
                         },
                         "text": {
                             "field": "text_annotation"
-                        }
+                        },
+                        "color": {
+                            "value": "gray"
+                          }
                     }
                 }
             ]
