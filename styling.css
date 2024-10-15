@@ -1,11 +1,9 @@
-/* Set consistent width and styling for all charts */
 .chart-container {
     width: 100%;
     height: auto;
     text-align: center;
 }
 
-/* Add a rectangular outline with curved corners for each chart section */
 .chart-section {
     border: 2px solid #ccc;
     border-radius: 15px;
@@ -16,34 +14,35 @@
     box-sizing: border-box;
 }
 
-/* Wrapper takes up 90% of the width for the entire page */
 .wrapper {
     width: 90%;
     margin: 0 auto;
 }
 
-/* General page styling */
 body {
     background-color: #f5f5f5;
     font-family: Arial, sans-serif;
     color: #333;
 }
 
-h1, p, h2 {
+h1, p, h2, h3 {
     text-align: center;
     color: #333;
 }
 
 
-
-/* Style for side-by-side grid container */
 .side-by-side-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;  /* Space between the charts */
+    display: flex;
+    width: 100%;
 }
 
-/* Style for individual chart subsections */
 .chart-subsection {
+    flex: 1;
+    border: 2px;
+    margin: 10px;
     text-align: center;
+}
+
+.chart-subsection:first-child {
+    margin-right: 0;
 }

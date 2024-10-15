@@ -1,9 +1,13 @@
 {
     "$schema": "https://vega.github.io/schema/vega/v5.2.json",
-    "height": 500,
-    "width": 1200,
+    "height": 400,
+    "width": 600,
+    "autosize": {
+        "type": "fit-x",
+        "contains": "content"
+    },
     "title": {
-        "text": "Funding Source of Australian Films by Genre (1996 - 2023)"
+        "text": "Australian Film Funding Source to Film Genre (2008 - 2023)"
     },
     "data": [
       {
@@ -126,7 +130,7 @@
       {
         "name": "colorSource",
         "type": "ordinal",
-        "range": ["#1b9e77","#d95f02","#7570b3","#e7298a","#66a61e","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9"],
+        "range": ["#e6ab02","#d95f02","#7570b3","#e7298a","#66a61e","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9","#d9d9d9"],
         "domain": {"data": "rawData", "field": "fundingSource"}
         },
       {
@@ -209,7 +213,6 @@
             "yc": {"signal": "(datum.scaledY0 + datum.scaledY1)/2"},
             "align": {"signal": "'center'"},
             "baseline": {"value": "middle"},
-            "fontWeight": {"value": "bold"},
             "text": {
               "signal": "abs(datum.scaledY0-datum.scaledY1) > 1 ? datum.groupID : ''"
             }

@@ -51,6 +51,9 @@
                         "color": {
                             "field": "numMoviesProduced",
                             "type": "quantitative",
+                            "scale": {
+                                "scheme": "purples"  
+                            },
                             "legend": {
                                 "title": "Number of Australian Films Produced in a Year",
                                 "titleLimit": 300
